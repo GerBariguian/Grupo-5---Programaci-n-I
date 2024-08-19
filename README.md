@@ -1,1 +1,3 @@
-# Grupo-5---Programaci-n-I
+## Grupo-5---Programacion-I
+
+# Alumnos: Bariguian, Reboredo Blanco, Virginis
