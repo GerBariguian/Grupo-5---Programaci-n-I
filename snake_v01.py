@@ -6,7 +6,7 @@ import os
 #Constantes (en este caso el tamaño que tendria tablero)
 
 ALTO = 10
-ANCHO = 20
+ANCHO = 30
 
 #Funciones
 
@@ -39,3 +39,18 @@ def inicializar_juego():
     tablero[comida[0]][comida[1]] = "*"
 
     return tablero, serpiente, comida
+
+def imprimir_tablero(tablero):
+    #Aplico la libreria OS para limpiar la consola
+    os.system('cls' if os.name=='nt' else 'clear')
+    #Impresion del tablero
+    print("+" + "-" * ANCHO + "+") #superior
+    for fila in tablero: #centro
+        print("|" + "".join(fila) + "|")
+    print("+" + "-" * ANCHO + "+") #inferior
+
+#----------------------------------------
+#MAIN (luego va en una funcion -> pruebas)
+
+tablero, serpiente, comida = inicializar_juego()
+imprimir_tablero(tablero)
