@@ -7,8 +7,7 @@
 #Funciones: 
 # 1. Inicialización del Juego:
 #inicializar_juego(): Configura el tablero, inicializa la posición inicial de la serpiente y genera la primera comida.
-#crear_tablero(filas, columnas): Crea y retorna una matriz que representa el tablero del juego.
-#posicionar_serpiente(tablero, posicion_inicial): Coloca la serpiente en su posición inicial dentro del tablero.
+#imprimir_tablero(tablero): Imprime por pantalla el tablero en base a las especificaciones brindadas y generadas anteriormente.
 
 # 2. Gestión de la Serpiente:
 #mover_serpiente(serpiente, direccion): Actualiza la posición de la serpiente según la dirección de movimiento (arriba, abajo, izquierda, derecha).
