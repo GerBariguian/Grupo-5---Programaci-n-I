@@ -160,7 +160,7 @@ def menu():
         if opcion==1:
             main()
         elif opcion==2:
-            print("Gracias por jugar!")
+            print("¡Gracias por jugar!")
             opciones=False
         else:
             print("Opcion no valida")
