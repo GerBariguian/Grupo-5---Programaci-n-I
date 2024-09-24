@@ -110,5 +110,30 @@ def menu():
         else:
             print("Opcion no valida")
 
+def main():
+    #Pedir que se ingresen datos por teclado
+    datos_usuario = cargar_datos_usuario() #datos_usuario es un diccionario
+
+    #Inicio el juego 
+    tablero, serpiente, comida, direccion = inicializar_juego() #pongo las variables en el orden del return 
+
+    juego_activo = True
+    while juego_activo:
+        imprimir_tablero(tablero)
+        print(f"Jugador: {datos_usuario['nombre']} | Edad: {datos_usuario['edad']} | Alias: {datos_usuario['alias']}")
+        print("Controles: 'w' = Arriba, 's' = Abajo, 'a' = Izquierda, 'd' = Derecha")
+        movimiento = input("Introduce tu movimiento: ").lower() #aseguro que la letra ingresada pase a minuscula
+
+        #Direccion
+        if movimiento == 'w' and direccion != 2:  #Arriba
+            direccion = 0
+        elif movimiento == 'd' and direccion != 3:  #Derecha
+            direccion = 1
+        elif movimiento == 's' and direccion != 0:  #Abajo
+            direccion = 2
+        elif movimiento == 'a' and direccion != 1:  #Izquierda
+            direccion = 3
+        #juego_activo = False
+        
 #inicio el menu
 menu()
