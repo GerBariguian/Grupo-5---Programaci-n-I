@@ -77,6 +77,22 @@ def comprobar_comida(serpiente, comida):
     # Verifica si la cabeza del serpiente está en la misma posición que la comida
     return serpiente[0] == comida #devuelve True o False
 
+def comprobar_colision(serpiente):
+    cabeza = serpiente[0] #posicion de la cabeza -> la asigno a cabeza -> (y,x)
+    
+    if cabeza[0] < 0 or cabeza[0] >= ALTO or cabeza[1] < 0 or cabeza[1] >= ANCHO: #compruebo si toco alguno de los bordes
+        return True
+    
+    if cabeza in serpiente[1:]: #compruebo si la serpiente se choco consigo misma
+        return True
+    return False
+
+def generar_comida(serpiente):
+    #Se genera una nueva comida en una posicion aleatoria (no puede estar ocupada por la serpiente)
+    while True:
+        nueva_comida = (random.randint(0, ALTO - 1), random.randint(0, ANCHO - 1))
+        if nueva_comida not in serpiente: #si la nueva comida no esta ocupada por la serpiente
+            return nueva_comida
 #----------------------------------------
 
 def cargar_datos_usuario():
@@ -166,5 +182,15 @@ def main():
         #Actualizar el movimiento
         mover_serpiente(serpiente, direccion, crece)
         
+        #Comprobamos si hay colisiones -> borde o con la misma serpiente
+        if comprobar_colision(serpiente): #true o false
+            imprimir_tablero(tablero)
+            print("¡Colisión! Fin del juego :(")
+            juego_activo = False #game over -> sale del while
+        else:
+            #Si la serpiente obtuvo la comida -> genero otra aleatoria en el tablero
+            if crece: 
+                comida = generar_comida(serpiente)
+
 #inicio el menu
 menu()
