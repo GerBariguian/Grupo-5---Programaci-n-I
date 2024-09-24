@@ -52,6 +52,19 @@ def imprimir_tablero(tablero):
         print("|" + "".join(fila) + "|")
     print("+" + "-" * ANCHO + "+") #inferior
 
+def actualizar_tablero(tablero, serpiente, comida):
+    # Limpiar el tablero
+    for y in range(ALTO):
+        for x in range(ANCHO):
+            tablero[y][x] = " "
+
+    # Colocar la comida
+    tablero[comida[0]][comida[1]] = "*"
+
+    # Colocar el serpiente
+    for y, x in serpiente:
+        tablero[y][x] = "O"
+
 def mover_serpiente(serpiente, direccion, crece):
     #Obtengo la posicion actual de la cabeza de la serpiente
     cabeza_y, cabeza_x = serpiente[0]
@@ -191,6 +204,12 @@ def main():
             #Si la serpiente obtuvo la comida -> genero otra aleatoria en el tablero
             if crece: 
                 comida = generar_comida(serpiente)
+            
+            #Actualizo el tablero con las nuevas posiciones de la serpiente y la comida
+            actualizar_tablero(tablero, serpiente, comida)
+
+    # Código que se ejecuta después de que el juego termina
+    print("¡Gracias por jugar!")
 
 #inicio el menu
 menu()
