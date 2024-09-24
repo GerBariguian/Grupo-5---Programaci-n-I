@@ -17,8 +17,8 @@ def inicializar_juego():
     for i in range(ALTO):
         fila = []  #fila vacia
         for j in range(ANCHO):
-            fila.append(" ")  # Agrego un espacio a la fila
-        tablero.append(fila)  # Agrego la fila al tablero
+            fila.append(" ")  #agrego un espacio a la fila
+        tablero.append(fila)  #agrego la fila al tablero
 
     #Para que la serpiente siempre aparezca en el centro, la ubico inicialmente de la siguiente forma:
     serpiente = [(ALTO // 2, ANCHO // 2), (ALTO // 2, ANCHO // 2 - 1), (ALTO // 2, ANCHO // 2 - 2)] #lista de tuplas (y,x)
@@ -53,30 +53,30 @@ def imprimir_tablero(tablero):
     print("+" + "-" * ANCHO + "+") #inferior
 
 def actualizar_tablero(tablero, serpiente, comida):
-    # Limpiar el tablero
+    #Limpiar el tablero
     for y in range(ALTO):
         for x in range(ANCHO):
             tablero[y][x] = " "
 
-    # Colocar la comida
+    #Colocar la comida
     tablero[comida[0]][comida[1]] = "*"
 
-    # Colocar el serpiente
+    #Colocar la serpiente
     for y, x in serpiente:
         tablero[y][x] = "O"
 
 def mover_serpiente(serpiente, direccion, crece):
     #Obtengo la posicion actual de la cabeza de la serpiente
-    cabeza_y, cabeza_x = serpiente[0]
+    cabeza_y, cabeza_x = serpiente[0] #desempaqueto la tupla (cabeza de la serpiente -> indice 0)
 
     #Determino la nueva posicion de la cabeza segun la direccion
-    if direccion == 0:  # Arriba
+    if direccion == 0:  #Arriba
         nueva_cabeza = (cabeza_y - 1, cabeza_x)
-    elif direccion == 1:  # Derecha
+    elif direccion == 1:  #Derecha
         nueva_cabeza = (cabeza_y, cabeza_x + 1)
-    elif direccion == 2:  # Abajo
+    elif direccion == 2:  #Abajo
         nueva_cabeza = (cabeza_y + 1, cabeza_x)
-    elif direccion == 3:  # Izquierda
+    elif direccion == 3:  #Izquierda
         nueva_cabeza = (cabeza_y, cabeza_x - 1)
 
     #Agrego la nueva cabeza a la serpiente
@@ -84,7 +84,7 @@ def mover_serpiente(serpiente, direccion, crece):
     
     #Elimino la cola si no crece para mantener la longitud constante, a menos que la serpiente coma
     if not crece: #se ejecuta si crece es False
-        serpiente.pop()
+        serpiente.pop() #elimina el ultimo elemento de la lista -> la cola -> entonces parece que se mueve
 
 def comprobar_comida(serpiente, comida):
     # Verifica si la cabeza del serpiente está en la misma posición que la comida
@@ -125,10 +125,11 @@ def cargar_datos_usuario():
     #Edad
     edadValida = False
     while edadValida == False:
-        edad = int(input("Ingrese su edad: ").strip())
-        if edad>0 and edad<125: #edad tiene que ser digito y mayor que 0
-            edadValida = True
-        else:
+        try: #excepciones
+            edad = int(input("Ingrese su edad (0-125, numero entero): ").strip())
+            if edad>0 and edad<125: #edad tiene que ser digito y mayor que 0
+                edadValida = True
+        except ValueError: #si no es un numero entero (int)
             print("Por favor ingrese una edad valida")
 
     #Alias
@@ -208,7 +209,7 @@ def main():
             #Actualizo el tablero con las nuevas posiciones de la serpiente y la comida
             actualizar_tablero(tablero, serpiente, comida)
 
-    # Código que se ejecuta después de que el juego termina
+    #Codigo del final del juego (por salir)
     print("¡Gracias por jugar!")
 
 #inicio el menu
