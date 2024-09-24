@@ -1,7 +1,8 @@
 #Librerias
 
 import random
-import os
+import os #importamos para limpiar la consola
+import re #importamos para trabajar regex 
 
 #Constantes (en este caso el tamaño que tendria tablero)
 
@@ -20,7 +21,7 @@ def inicializar_juego():
         tablero.append(fila)  # Agrego la fila al tablero
 
     #Para que la serpiente siempre aparezca en el centro, la ubico inicialmente de la siguiente forma:
-    serpiente = [(ALTO // 2, ANCHO // 2), (ALTO // 2, ANCHO // 2 - 1), (ALTO // 2, ANCHO // 2 - 2)] #x,y
+    serpiente = [(ALTO // 2, ANCHO // 2), (ALTO // 2, ANCHO // 2 - 1), (ALTO // 2, ANCHO // 2 - 2)] #lista de tuplas (y,x)
 
     for y, x in serpiente: #recorro las posiciones
         tablero[y][x] = "O" #asigno a las posiciones "O"
@@ -38,7 +39,9 @@ def inicializar_juego():
     #Teniendo los valores de comida y sabiendo que no choca con la serpiente, coloco la comida en el tablero
     tablero[comida[0]][comida[1]] = "*"
 
-    return tablero, serpiente, comida
+    direccion = 1 #direccion inicial
+
+    return tablero, serpiente, comida, direccion
 
 def imprimir_tablero(tablero):
     #Aplico la libreria OS para limpiar la consola
@@ -50,7 +53,7 @@ def imprimir_tablero(tablero):
     print("+" + "-" * ANCHO + "+") #inferior
 
 #----------------------------------------
-#MAIN (luego va en una funcion -> pruebas)
+
 
 tablero, serpiente, comida = inicializar_juego()
 imprimir_tablero(tablero)
