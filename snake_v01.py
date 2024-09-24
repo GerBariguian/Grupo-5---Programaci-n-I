@@ -52,6 +52,31 @@ def imprimir_tablero(tablero):
         print("|" + "".join(fila) + "|")
     print("+" + "-" * ANCHO + "+") #inferior
 
+def mover_serpiente(serpiente, direccion, crece):
+    #Obtengo la posicion actual de la cabeza de la serpiente
+    cabeza_y, cabeza_x = serpiente[0]
+
+    #Determino la nueva posicion de la cabeza segun la direccion
+    if direccion == 0:  # Arriba
+        nueva_cabeza = (cabeza_y - 1, cabeza_x)
+    elif direccion == 1:  # Derecha
+        nueva_cabeza = (cabeza_y, cabeza_x + 1)
+    elif direccion == 2:  # Abajo
+        nueva_cabeza = (cabeza_y + 1, cabeza_x)
+    elif direccion == 3:  # Izquierda
+        nueva_cabeza = (cabeza_y, cabeza_x - 1)
+
+    #Agrego la nueva cabeza a la serpiente
+    serpiente.insert(0, nueva_cabeza) #(posicion, elemento)
+    
+    #Elimino la cola si no crece para mantener la longitud constante, a menos que la serpiente coma
+    if not crece: #se ejecuta si crece es False
+        serpiente.pop()
+
+def comprobar_comida(serpiente, comida):
+    # Verifica si la cabeza del serpiente está en la misma posición que la comida
+    return serpiente[0] == comida #devuelve True o False
+
 #----------------------------------------
 
 def cargar_datos_usuario():
@@ -134,6 +159,12 @@ def main():
         elif movimiento == 'a' and direccion != 1:  #Izquierda
             direccion = 3
         #juego_activo = False
+
+        #Verifico si la serpiente debe crecer o no (en base a si come la comida)
+        crece = comprobar_comida(serpiente, comida)
+        
+        #Actualizar el movimiento
+        mover_serpiente(serpiente, direccion, crece)
         
 #inicio el menu
 menu()
