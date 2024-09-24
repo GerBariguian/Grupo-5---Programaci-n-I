@@ -54,6 +54,61 @@ def imprimir_tablero(tablero):
 
 #----------------------------------------
 
+def cargar_datos_usuario():
+    datos_usuario = {} #iniciamos el diccionario
 
-tablero, serpiente, comida = inicializar_juego()
-imprimir_tablero(tablero)
+    regex_alias = r'^(?=.*[a-zA-Z]{5,})(?=.*\d{2,})' #condicion a cumplir
+
+    #Nombre
+    soloLetras = False
+    while soloLetras == False:
+        nombre = input("Ingresa tu nombre: ").strip() #elimino espacios en blanco
+        if nombre.isalpha(): #todos los caracteres son letras
+            soloLetras = True
+        else:
+            print("El nombre solo debe contener letras.")
+
+    #Edad
+    edadValida = False
+    while edadValida == False:
+        edad = int(input("Ingrese su edad: ").strip())
+        if edad>0 and edad<125: #edad tiene que ser digito y mayor que 0
+            edadValida = True
+        else:
+            print("Por favor ingrese una edad valida")
+
+    #Alias
+    alias = input("Ingresa tu alias (al menos 5 letras y 2 números): ").strip()
+    coincide = False
+    while coincide == False: #mientras que el alias no cumpla con la regex, seguira pidiendo ingresar nuevamente
+        print("El alias debe contener al menos 5 letras y 2 números.")
+        alias = input("Ingresa tu alias: ").strip()
+        if re.match(regex_alias, alias): #(patron, cadena):
+            coincide=True
+
+    #Diccionario
+    datos_usuario["nombre"] = nombre
+    datos_usuario["edad"] = edad
+    datos_usuario["alias"] = alias
+
+    print("Datos registrados correctamente:", datos_usuario)
+    return datos_usuario
+
+#----------------------------------------
+
+def menu():
+    opciones=True
+    while opciones:
+        print("1. Iniciar juego")
+        print("2. Salir")
+        opcion=int(input("Ingrese una opcion: "))
+        if opcion==1:
+            main()
+        elif opcion==2:
+            print("Gracias por jugar!")
+            opciones=False
+        else:
+            print("Opcion no valida")
+
+#inicio el menu
+menu()
