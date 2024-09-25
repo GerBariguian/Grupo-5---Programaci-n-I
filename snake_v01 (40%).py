@@ -133,13 +133,14 @@ def cargar_datos_usuario():
             print("Por favor ingrese una edad valida")
 
     #Alias
-    alias = input("Ingresa tu alias (al menos 5 letras y 2 números): ").strip()
+    #alias = input("Ingresa tu alias (al menos 5 letras y 2 números): ").strip()
     coincide = False
     while coincide == False: #mientras que el alias no cumpla con la regex, seguira pidiendo ingresar nuevamente
-        print("El alias debe contener al menos 5 letras y 2 números.")
         alias = input("Ingresa tu alias: ").strip()
         if re.match(regex_alias, alias): #(patron, cadena):
             coincide=True
+        else:
+            print("El alias debe contener al menos 5 letras y 2 números.")
 
     #Diccionario
     datos_usuario["nombre"] = nombre
