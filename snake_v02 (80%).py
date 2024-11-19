@@ -239,3 +239,81 @@ def mostrar_top_3():
     except (FileNotFoundError, json.JSONDecodeError):
         print("\nAún no hay registros de partidas.")
         input("\nPresione Enter para continuar...")
+
+def menu():
+    """
+    Muestra el menú principal del juego y maneja la selección de opciones.
+    """
+    datos_usuario = cargar_datos_usuario()
+    opciones_activas = True
+    while opciones_activas:
+        print("\nSeleccione una opción:")
+        print("1. Nivel 1 (Básico)")
+        print("2. Nivel 2 (Obstáculos y velocidad moderada)")
+        print("3. Nivel 3 (Más obstáculos y alta velocidad)")
+        print("4. Ver TOP 3 mejores puntajes")
+        print("5. Salir")
+        opcion = input("Ingrese una opción: ")
+        if opcion in ['1', '2', '3']:
+            main(int(opcion), datos_usuario)
+        elif opcion == '4':
+            mostrar_top_3()
+        elif opcion == '5':
+            print("¡Gracias por jugar!")
+            opciones_activas = False
+        else:
+            print("Opción no válida, intente de nuevo.")
+ 
+def main(nivel, datos_usuario):
+    """
+    Función principal que ejecuta el juego.
+    
+    Args:
+        nivel (int): Nivel de dificultad seleccionado
+        datos_usuario (dict): Información del usuario
+    """
+    tiempo_de_retraso = tiempo_de_retraso_base / (nivel * 1.5)
+    tablero, serpiente, comida, obstaculos, direccion = inicializar_juego(nivel)
+    ultima_pulsacion = time.time()
+    tiempo_inicial = time.time()
+    puntos = 0  # Contador de puntos
+    juego_activo = True
+    while juego_activo:
+        imprimir_tablero(tablero)
+        tiempo_jugado = int(time.time() - tiempo_inicial)
+        print(f"Jugador: {datos_usuario['nombre']} | Edad: {datos_usuario['edad']} | Alias: {datos_usuario['alias']}")
+        print(f"Tiempo de juego: {tiempo_jugado} segundos | Nivel: {nivel} | Puntos: {puntos}")
+        tiempo_actual = time.time()
+        if tiempo_actual - ultima_pulsacion >= tiempo_de_retraso:
+            if keyboard.is_pressed('w') and direccion != 2:
+                direccion = 0
+                ultima_pulsacion = tiempo_actual
+            elif keyboard.is_pressed('d') and direccion != 3:
+                direccion = 1
+                ultima_pulsacion = tiempo_actual
+            elif keyboard.is_pressed('s') and direccion != 0:
+                direccion = 2
+                ultima_pulsacion = tiempo_actual
+            elif keyboard.is_pressed('a') and direccion != 1:
+                direccion = 3
+                ultima_pulsacion = tiempo_actual
+        crece = comprobar_comida(serpiente, comida)
+        mover_serpiente(serpiente, direccion, crece)
+        if comprobar_colision(serpiente, obstaculos):
+            imprimir_tablero(tablero)
+            print(f"¡Colisión! Fin del juego :( | Tiempo total: {tiempo_jugado} segundos | Puntos: {puntos}")
+            guardar_datos_partida(datos_usuario, nivel, puntos, tiempo_jugado)
+            juego_activo = False
+        else:
+            if crece:
+                puntos += 1  # Incrementar puntos al comer comida
+                comida = generar_posicion_vacia(tablero, serpiente + obstaculos)
+            actualizar_tablero(tablero, serpiente, comida, obstaculos)
+        time.sleep(0.08)
+ 
+# Verificar si el archivo de registros existe; si no, crear uno con encabezados
+if not os.path.isfile(ARCHIVO_PARTIDAS):
+    with open(ARCHIVO_PARTIDAS, 'w') as archivo:
+        json.dump([], fp=archivo)
+ 
+menu()
