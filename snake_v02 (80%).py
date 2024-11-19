@@ -108,3 +108,51 @@ def actualizar_tablero(tablero, serpiente, comida, obstaculos):
         tablero[obs[0]][obs[1]] = "■"
     for y, x in serpiente:
         tablero[y][x] = "■"
+
+def mover_serpiente(serpiente, direccion, crece):
+    """
+    Actualiza la posición de la serpiente según la dirección.
+    
+    Args:
+        serpiente (lista): Lista de coordenadas de la serpiente
+        direccion (int): Dirección del movimiento (0:arriba, 1:derecha, 2:abajo, 3:izquierda)
+        crece (bool): Indica si la serpiente debe crecer
+    """
+    cabeza_y, cabeza_x = serpiente[0]
+    nueva_cabeza = (
+        cabeza_y + (direccion == 2) - (direccion == 0),
+        cabeza_x + (direccion == 1) - (direccion == 3)
+    )
+    serpiente.insert(0, nueva_cabeza)
+    if not crece:
+        serpiente.pop()
+ 
+def comprobar_comida(serpiente, comida):
+    """
+    Verifica si la serpiente ha alcanzado la comida.
+    
+    Args:
+        serpiente (lista): Lista de coordenadas de la serpiente
+        comida (tupla): Coordenadas de la comida
+    
+    Returns:
+        bool: True si la serpiente alcanzó la comida, False en caso contrario
+    """
+    return serpiente[0] == comida
+ 
+def comprobar_colision(serpiente, obstaculos):
+    """
+    Verifica si la serpiente ha colisionado con algo.
+    
+    Args:
+        serpiente (lista): Lista de coordenadas de la serpiente
+        obstaculos (lista): Lista de coordenadas de los obstáculos
+    
+    Returns:
+        bool: True si hay colisión, False en caso contrario
+    """
+    cabeza = serpiente[0]
+    fuera_de_limites = cabeza[0] < 0 or cabeza[0] >= ALTO or cabeza[1] < 0 or cabeza[1] >= ANCHO
+    choca_con_obstaculo = cabeza in obstaculos
+    choca_con_cuerpo = cabeza in serpiente[1:]
+    return fuera_de_limites or choca_con_obstaculo or choca_con_cuerpo
