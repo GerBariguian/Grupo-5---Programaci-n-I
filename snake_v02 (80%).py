@@ -311,7 +311,7 @@ def main(nivel, datos_usuario):
             actualizar_tablero(tablero, serpiente, comida, obstaculos)
         time.sleep(0.08)
  
-# Verificar si el archivo de registros existe; si no, crear uno con encabezados
+# Verificar si el archivo de registros existe, sino crea uno
 if not os.path.isfile(ARCHIVO_PARTIDAS):
     with open(ARCHIVO_PARTIDAS, 'w') as archivo:
         json.dump([], fp=archivo)
