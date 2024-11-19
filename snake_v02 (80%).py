@@ -156,3 +156,86 @@ def comprobar_colision(serpiente, obstaculos):
     choca_con_obstaculo = cabeza in obstaculos
     choca_con_cuerpo = cabeza in serpiente[1:]
     return fuera_de_limites or choca_con_obstaculo or choca_con_cuerpo
+
+def generar_posicion_vacia(tablero, excluidos):
+    """
+    Genera una posición aleatoria vacía en el tablero.
+   
+    Args:
+        tablero (lista): Matriz del juego
+        excluidos (lista): Lista de posiciones que deben evitarse
+   
+    Returns:
+        tupla: Coordenadas (y, x) de la nueva posición
+    """
+    while True:
+        pos = (random.randint(0, ALTO - 1), random.randint(0, ANCHO - 1))
+        if pos not in excluidos:
+            return pos
+ 
+def guardar_datos_partida(datos_usuario, nivel, puntaje, tiempo_jugado):
+    """
+    Guarda los datos de la partida en el archivo JSON.
+   
+    Args:
+        datos_usuario (dict): Información del usuario
+        nivel (int): Nivel jugado
+        puntaje (int): Puntos obtenidos
+        tiempo_jugado (int): Duración de la partida en segundos
+    """
+    # Crear el nuevo registro
+    nuevo_registro = {
+        "nombre": datos_usuario["nombre"],
+        "edad": datos_usuario["edad"],
+        "alias": datos_usuario["alias"],
+        "nivel": nivel,
+        "puntaje": puntaje,
+        "tiempo_jugado": tiempo_jugado
+    }
+   
+    # Cargar registros existentes o crear lista vacía
+    try:
+        with open(ARCHIVO_PARTIDAS, 'r') as archivo:
+            registros = json.load(archivo)
+    except (FileNotFoundError, json.JSONDecodeError):
+        registros = []
+   
+    # Agregar nuevo registro y guardar
+    registros.append(nuevo_registro)
+    with open(ARCHIVO_PARTIDAS, 'w') as archivo:
+        json.dump(registros, indent=4, fp=archivo)
+ 
+def mostrar_top_3():
+    """
+    Muestra los 3 mejores puntajes almacenados en el archivo JSON.
+    """
+    try:
+        with open(ARCHIVO_PARTIDAS, 'r') as archivo:
+            registros = json.load(archivo)
+       
+        # Ordenar registros por puntaje usando bubble sort
+        n = len(registros)
+        for i in range(n):
+            for j in range(0, n - i - 1):
+                if registros[j]['puntaje'] < registros[j + 1]['puntaje']:
+                    registros[j], registros[j + 1] = registros[j + 1], registros[j]
+       
+        # Tomar los primeros 3 registros
+        top_3 = registros[:3]
+       
+        print("\n=== TOP 3 MEJORES PUNTAJES ===")
+        print("-------------------------------")
+       
+        posicion = 1
+        for registro in top_3:
+            print(f"{posicion}. Alias: {registro['alias']}")
+            print(f"   Puntaje: {registro['puntaje']}")
+            print(f"   Nivel: {registro['nivel']}")
+            print("-------------------------------")
+            posicion += 1
+       
+        input("\nPresione Enter para continuar...")
+       
+    except (FileNotFoundError, json.JSONDecodeError):
+        print("\nAún no hay registros de partidas.")
+        input("\nPresione Enter para continuar...")
