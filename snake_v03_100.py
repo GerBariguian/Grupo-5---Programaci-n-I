@@ -67,7 +67,7 @@ def inicializar_juego(nivel):
     for y, x in serpiente:
         tablero[y][x] = "■"
     comida = generar_posicion_vacia(tablero, serpiente)
-    tablero[comida[0]][comida[1]] = "☀"
+    tablero[comida[0]][comida[1]] = "⛾"
     obstaculos = []
     if nivel > 1:
         num_obstaculos = 5 if nivel == 2 else 10
@@ -103,7 +103,7 @@ def actualizar_tablero(tablero, serpiente, comida, obstaculos):
     for y in range(ALTO):
         for x in range(ANCHO):
             tablero[y][x] = " "
-    tablero[comida[0]][comida[1]] = "☀" 
+    tablero[comida[0]][comida[1]] = "⛾" 
     for obs in obstaculos:
         tablero[obs[0]][obs[1]] = "■"
     for y, x in serpiente:
