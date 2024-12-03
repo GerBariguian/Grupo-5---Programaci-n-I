@@ -1,5 +1,5 @@
 import pytest
-from snake_v02 (80%) import comprobar_comida, generar_posicion_vacia
+from snake_v03(100%) import comprobar_comida, generar_posicion_vacia
  
 def test_comprobar_comida():
     serpiente = [(5, 5), (5, 4), (5, 3)]
