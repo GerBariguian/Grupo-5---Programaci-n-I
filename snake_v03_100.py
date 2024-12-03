@@ -335,8 +335,13 @@ def main(nivel, datos_usuario):
         mover_serpiente(serpiente, direccion, crece)
         if comprobar_colision(serpiente, obstaculos):
             imprimir_tablero(tablero)
-            print(f"¡Colisión! Fin del juego :( | Tiempo total: {tiempo_jugado} segundos | Puntos: {puntos}")
+            print(f"\n{Fore.RED}¡Colisión! Fin del juego :({Style.RESET_ALL}")
+            print(f"\n{Fore.YELLOW}=== Resumen de la partida ==={Style.RESET_ALL}")
+            print(f"🎮 Jugador: {Fore.CYAN}{datos_usuario['nombre']}{Style.RESET_ALL}")
+            print(f"⏱️ Tiempo jugado: {Fore.GREEN}{tiempo_jugado} segundos{Style.RESET_ALL}")
+            print(f"🏆 Puntos conseguidos: {Fore.YELLOW}{puntos}{Style.RESET_ALL}\n")
             guardar_datos_partida(datos_usuario, nivel, puntos, tiempo_jugado)
+            input("Presione Enter para continuar...")
             juego_activo = False
         else:
             if crece:
